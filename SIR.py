@@ -32,18 +32,25 @@ class SIR:
         #assign a bin to each observations
         assignments = np.digitize(Y,bins)
 
+        #this is really hacky... 
+        assignments[np.argmax(assignments)] -= 1
+
         #loop through the slices, for each slice compute within slice mean
         M = np.zeros((p,p))
         for i in range(len(n_h)):
 
         	h = n_h[i]
-        	x_h_bar = np.mean(X[assigments == i + 1],axis = 0)
+        	if h != 0:
+        		x_h_bar = np.mean(X[assignments == i + 1],axis = 0)
+        	elif h ==0:
+        		x_h_bar = np.zeros(p)
+
         	x_std = x_h_bar - x_bar
 
         	M += float(h) * np.outer(x_std,x_std)
 
         #compute the estimate of the covariance matrix M
-        M  = 1.0/n * M
+        M  = float(n)**(-1) * M
         self.M = M
 
         #eigendecomposition of V
