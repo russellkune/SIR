@@ -65,22 +65,13 @@ class SIR:
         #assign first K columns to beta 
         beta = eigenvectors[:,0:self.K]
         self.beta = beta
+        self.eigenvalues = eigenvalues
         return
-
-   	def fit_transform(self,X,Y):
-   		#call fit
-   		self.fit(X,Y)
-
-   		#get the betas
-   		beta = self.beta
-   		return np.dot(X,beta)
 
 
     def transform(self, X_to_predict):
     	beta = self.beta 
     	return np.dot(X_to_predict,beta)
 
-   	#TODO: 
-   	# implement chi square test for elliptical symmetry
-   	# method to estimate K 
+
 
